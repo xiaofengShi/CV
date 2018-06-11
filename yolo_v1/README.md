@@ -1,4 +1,4 @@
-## YOLO_tensorflow
+## YOLO_v1_tensorflow
 
 Tensorflow implementation of [YOLO](https://arxiv.org/pdf/1506.02640.pdf), including training and test phase.
 
@@ -6,13 +6,13 @@ Tensorflow implementation of [YOLO](https://arxiv.org/pdf/1506.02640.pdf), inclu
 
 1. Clone yolo_tensorflow repository
 	```Shell
-	$ git clone https://github.com/hizhangp/yolo_tensorflow.git
-    $ cd yolo_tensorflow
+	git clone https://github.com/hizhangp/yolo_tensorflow.git
+   cd yolo_tensorflow
 	```
 
 2. Download Pascal VOC dataset, and create correct directories
 	```Shell
-	$ ./download_data.sh
+	./download_data.sh
 	```
 
 3. Download [YOLO_small](https://drive.google.com/file/d/0B5aC8pI-akZUNVFZMmhmcVRpbTA/view?usp=sharing)
@@ -22,15 +22,19 @@ weight file and put it in `data/weight`
 
 5. Training
 	```Shell
-	$ python train.py
+	python3 train.py
 	```
 
 6. Test
 	```Shell
-	$ python test.py
+	python3 test.py
 	```
 
+------
+
 ### THRORY
+
+- 对图像进行卷积，在最后的feature_map层进行铺平之后进行维度变换，将其变换成的维度中包含每个cell的位置偏置，目标置信度，类别得分。
 
 - Yolo的CNN网络将输入的图片分割成 ![S\times S](https://www.zhihu.com/equation?tex=S%5Ctimes+S) 网格，然后每个单元格负责去检测那些中心点落在该格子内的目标，如图6所示，可以看到狗这个目标的中心落在左下角一个单元格内，那么该单元格负责预测这个狗。每个单元格会预测 ![B](https://www.zhihu.com/equation?tex=B) 个边界框（bounding box）以及边界框的置信度（confidence score）。所谓置信度其实包含两个方面，一是这个边界框含有目标的可能性大小，二是这个边界框的准确度。前者记为 ![Pr(object)](https://www.zhihu.com/equation?tex=Pr%28object%29) ，当该边界框是背景时（即不包含目标），此时 ![Pr(object)=0](https://www.zhihu.com/equation?tex=Pr%28object%29%3D0) 。而当该边界框包含目标时， ![Pr(object)=1](https://www.zhihu.com/equation?tex=Pr%28object%29%3D1) 。边界框的准确度可以用预测框与实际框（ground truth）的IOU（intersection over union，交并比）来表征，记为 ![\text{IOU}^{truth}_{pred}](https://www.zhihu.com/equation?tex=%5Ctext%7BIOU%7D%5E%7Btruth%7D_%7Bpred%7D)。因此置信度可以定义为 ![Pr(object)*\text{IOU}^{truth}_{pred}](https://www.zhihu.com/equation?tex=Pr%28object%29%2A%5Ctext%7BIOU%7D%5E%7Btruth%7D_%7Bpred%7D) 。很多人可能将Yolo的置信度看成边界框是否含有目标的概率，但是其实它是两个因子的乘积，预测框的准确度也反映在里面。边界框的大小与位置可以用4个值来表征： ![(x, y,w,h)](https://www.zhihu.com/equation?tex=%28x%2C+y%2Cw%2Ch%29) ，其中 ![(x,y)](https://www.zhihu.com/equation?tex=%28x%2Cy%29) 是边界框的中心坐标，而 ![w](https://www.zhihu.com/equation?tex=w) 和 ![h](https://www.zhihu.com/equation?tex=h) 是边界框的宽与高。还有一点要注意，中心坐标的预测值 ![(x,y)](https://www.zhihu.com/equation?tex=%28x%2Cy%29) 是相对于每个单元格左上角坐标点的偏移值，并且单位是相对于单元格大小的，单元格的坐标定义如图6所示。而边界框的 ![w](https://www.zhihu.com/equation?tex=w) 和 ![h](https://www.zhihu.com/equation?tex=h) 预测值是相对于整个图片的宽与高的比例，这样理论上4个元素的大小应该在 ![[0,1]](https://www.zhihu.com/equation?tex=%5B0%2C1%5D) 范围。这样，每个边界框的预测值实际上包含5个元素： ![(x,y,w,h,c)](https://www.zhihu.com/equation?tex=%28x%2Cy%2Cw%2Ch%2Cc%29) ，其中前4个表征边界框的大小与位置，而最后一个值是置信度。
 
@@ -55,8 +59,6 @@ weight file and put it in `data/weight`
   
 
   
-
- 
 
 ### Requirements
 
