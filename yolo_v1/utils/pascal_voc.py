@@ -26,6 +26,10 @@ class pascal_voc(object):
         self.prepare()
 
     def get(self):
+        # 最后一部的featuresize为7*7
+        # 每个单元格需要预测 (B*5+C) 个值,
+        # 如果将输入图片划分为 S*S 网格，那么最终预测值为 S*S(B*5+C) 大小的张量
+        # 在本结构中使用的是S=7,B=1,C=20
         images = np.zeros((self.batch_size, self.image_size, self.image_size, 3))
         labels = np.zeros((self.batch_size, self.cell_size, self.cell_size, 25))
         count = 0
@@ -44,8 +48,10 @@ class pascal_voc(object):
 
     def image_read(self, imname, flipped=False):
         image = cv2.imread(imname)
+        # 将图像resize成448*448
         image = cv2.resize(image, (self.image_size, self.image_size))
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB).astype(np.float32)
+        # 归一化处理
         image = (image / 255.0) * 2.0 - 1.0
         if flipped:
             image = image[:, ::-1, :]
@@ -62,7 +68,8 @@ class pascal_voc(object):
                 for i in range(self.cell_size):
                     for j in range(self.cell_size):
                         if gt_labels_cp[idx]['label'][i, j, 0] == 1:
-                            gt_labels_cp[idx]['label'][i, j, 1] = self.image_size - 1 - gt_labels_cp[idx]['label'][i, j, 1]
+                            gt_labels_cp[idx]['label'][i, j,
+                                                       1] = self.image_size - 1 - gt_labels_cp[idx]['label'][i, j, 1]
             gt_labels += gt_labels_cp
         np.random.shuffle(gt_labels)
         self.gt_labels = gt_labels

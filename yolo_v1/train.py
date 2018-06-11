@@ -14,7 +14,7 @@ class Solver(object):
         self.net = net
         self.data = data
         self.weights_file = cfg.WEIGHTS_FILE
-        self.max_iter = cfg.MAX_ITER
+        self.max_siter = cfg.MAX_ITER
         self.initial_learning_rate = cfg.LEARNING_RATE
         self.decay_steps = cfg.DECAY_STEPS
         self.decay_rate = cfg.DECAY_RATE

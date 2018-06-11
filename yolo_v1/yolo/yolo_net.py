@@ -13,8 +13,13 @@ class YOLONet(object):
         self.image_size = cfg.IMAGE_SIZE
         self.cell_size = cfg.CELL_SIZE
         self.boxes_per_cell = cfg.BOXES_PER_CELL
-        self.output_size = (self.cell_size * self.cell_size) * (self.num_class + self.boxes_per_cell * 5)
+        self.output_size = (
+            self.cell_size * self.cell_size) * (self.num_class + self.boxes_per_cell * 5)
+        # 7*7*(20+2*5)
         self.scale = 1.0 * self.image_size / self.cell_size
+        # 7*7*20 表示类别概率部分
+        # 7*7*20：7*7*2表示置信度部分
+        # 剩下的是边界框的预测结果
         self.boundary1 = self.cell_size * self.cell_size * self.num_class
         self.boundary2 = self.boundary1 + self.cell_size * self.cell_size * self.boxes_per_cell
 
@@ -31,12 +36,15 @@ class YOLONet(object):
             [np.arange(self.cell_size)] * self.cell_size * self.boxes_per_cell),
             (self.boxes_per_cell, self.cell_size, self.cell_size)), (1, 2, 0))
 
-        self.images = tf.placeholder(tf.float32, [None, self.image_size, self.image_size, 3], name='images')
-        self.logits = self.build_network(self.images, num_outputs=self.output_size, alpha=self.alpha,
-                                         is_training=is_training)
+        self.images = tf.placeholder(
+            tf.float32, [None, self.image_size, self.image_size, 3],
+            name='images')
+        self.logits = self.build_network(
+            self.images, num_outputs=self.output_size, alpha=self.alpha, is_training=is_training)
 
         if is_training:
-            self.labels = tf.placeholder(tf.float32, [None, self.cell_size, self.cell_size, 5 + self.num_class])
+            self.labels = tf.placeholder(
+                tf.float32, [None, self.cell_size, self.cell_size, 5 + self.num_class])
             self.loss_layer(self.logits, self.labels)
             self.total_loss = tf.losses.get_total_loss()
             tf.summary.scalar('total_loss', self.total_loss)
@@ -135,26 +143,33 @@ class YOLONet(object):
 
     def loss_layer(self, predicts, labels, scope='loss_layer'):
         with tf.variable_scope(scope):
-            predict_classes = tf.reshape(predicts[:, :self.boundary1],
-                                         [self.batch_size, self.cell_size, self.cell_size, self.num_class])
-            predict_scales = tf.reshape(predicts[:, self.boundary1:self.boundary2],
-                                        [self.batch_size, self.cell_size, self.cell_size, self.boxes_per_cell])
-            predict_boxes = tf.reshape(predicts[:, self.boundary2:],
-                                       [self.batch_size, self.cell_size, self.cell_size, self.boxes_per_cell, 4])
+            predict_classes = tf.reshape(
+                predicts[:, : self.boundary1],
+                [self.batch_size, self.cell_size, self.cell_size, self.num_class])
+            predict_scales = tf.reshape(
+                predicts[:, self.boundary1: self.boundary2],
+                [self.batch_size, self.cell_size, self.cell_size, self.boxes_per_cell])
+            predict_boxes = tf.reshape(
+                predicts[:, self.boundary2:],
+                [self.batch_size, self.cell_size, self.cell_size, self.boxes_per_cell, 4])
 
-            response = tf.reshape(labels[:, :, :, 0], [self.batch_size, self.cell_size, self.cell_size, 1])
-            boxes = tf.reshape(labels[:, :, :, 1:5], [self.batch_size, self.cell_size, self.cell_size, 1, 4])
+            response = tf.reshape(
+                labels[:, :, :, 0],
+                [self.batch_size, self.cell_size, self.cell_size, 1])
+            boxes = tf.reshape(
+                labels[:, :, :, 1: 5],
+                [self.batch_size, self.cell_size, self.cell_size, 1, 4])
             boxes = tf.tile(boxes, [1, 1, 1, self.boxes_per_cell, 1]) / self.image_size
             classes = labels[:, :, :, 5:]
 
             offset = tf.constant(self.offset, dtype=tf.float32)
             offset = tf.reshape(offset, [1, self.cell_size, self.cell_size, self.boxes_per_cell])
             offset = tf.tile(offset, [self.batch_size, 1, 1, 1])
-            predict_boxes_tran = tf.stack([(predict_boxes[:, :, :, :, 0] + offset) / self.cell_size,
-                                           (predict_boxes[:, :, :, :, 1] + tf.transpose(offset,
-                                                                                        (0, 2, 1, 3))) / self.cell_size,
-                                           tf.square(predict_boxes[:, :, :, :, 2]),
-                                           tf.square(predict_boxes[:, :, :, :, 3])])
+            predict_boxes_tran = tf.stack(
+                [(predict_boxes[:, :, :, :, 0] + offset) / self.cell_size,
+                 (predict_boxes[:, :, :, :, 1] + tf.transpose(offset, (0, 2, 1, 3))) / self.cell_size,
+                 tf.square(predict_boxes[:, :, :, :, 2]),
+                 tf.square(predict_boxes[:, :, :, :, 3])])
             predict_boxes_tran = tf.transpose(predict_boxes_tran, [1, 2, 3, 4, 0])
 
             iou_predict_truth = self.calc_iou(predict_boxes_tran, boxes)
