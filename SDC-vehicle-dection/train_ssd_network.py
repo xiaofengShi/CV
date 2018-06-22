@@ -492,9 +492,7 @@ def main(_):
 
         # and returns a train_tensor and summary_op
         total_loss, clones_gradients = model_deploy.optimize_clones(
-            clones,
-            optimizer,
-            var_list=variables_to_train)
+            clones, optimizer, var_list=variables_to_train)
         # Add total_loss to summary.
         summaries.add(tf.summary.scalar('total_loss', total_loss))
 

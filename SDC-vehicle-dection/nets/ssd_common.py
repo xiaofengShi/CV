@@ -252,54 +252,54 @@ def tf_ssd_bboxes_decode(feat_localizations,
 # Additional TF bboxes methods.
 # =========================================================================== #
 def tf_bboxes_jaccard(bbox_ref, bboxes):
-        """Compute jaccard score between a reference box and a collection
-        of bounding boxes.
+    """Compute jaccard score between a reference box and a collection
+    of bounding boxes.
 
-        Args:
-          bbox_ref: Reference bounding box. 1x4 or 4 Tensor.
-          bboxes: Nx4 Tensor, collection of bounding boxes.
-        Return:
-          Nx4 Tensor with Jaccard scores.
-        """
-        # Intersection bbox and volume.
-        int_ymin = tf.maximum(bboxes[:, 0], bbox_ref[0])
-        int_xmin = tf.maximum(bboxes[:, 1], bbox_ref[1])
-        int_ymax = tf.minimum(bboxes[:, 2], bbox_ref[2])
-        int_xmax = tf.minimum(bboxes[:, 3], bbox_ref[3])
-        h = tf.maximum(int_ymax - int_ymin, 0.)
-        w = tf.maximum(int_xmax - int_xmin, 0.)
-        # Volumes.
-        inter_vol = h * w
-        union_vol = -inter_vol \
-            + (bboxes[:, 2] - bboxes[:, 0]) * (bboxes[:, 3] - bboxes[:, 1]) \
-            + (bbox_ref[2] - bbox_ref[0]) * (bbox_ref[3] - bbox_ref[1])
-        jaccard = tf.div(inter_vol, union_vol)
-        return jaccard
+    Args:
+      bbox_ref: Reference bounding box. 1x4 or 4 Tensor.
+      bboxes: Nx4 Tensor, collection of bounding boxes.
+    Return:
+      Nx4 Tensor with Jaccard scores.
+    """
+    # Intersection bbox and volume.
+    int_ymin = tf.maximum(bboxes[:, 0], bbox_ref[0])
+    int_xmin = tf.maximum(bboxes[:, 1], bbox_ref[1])
+    int_ymax = tf.minimum(bboxes[:, 2], bbox_ref[2])
+    int_xmax = tf.minimum(bboxes[:, 3], bbox_ref[3])
+    h = tf.maximum(int_ymax - int_ymin, 0.)
+    w = tf.maximum(int_xmax - int_xmin, 0.)
+    # Volumes.
+    inter_vol = h * w
+    union_vol = -inter_vol \
+        + (bboxes[:, 2] - bboxes[:, 0]) * (bboxes[:, 3] - bboxes[:, 1]) \
+        + (bbox_ref[2] - bbox_ref[0]) * (bbox_ref[3] - bbox_ref[1])
+    jaccard = tf.div(inter_vol, union_vol)
+    return jaccard
 
 
 def tf_bboxes_intersection(bbox_ref, bboxes):
-        """Compute relative intersection between a reference box and a
-        collection of bounding boxes. Namely, compute the quotient between
-        intersection area and box area.
+    """Compute relative intersection between a reference box and a
+    collection of bounding boxes. Namely, compute the quotient between
+    intersection area and box area.
 
-        Args:
-          bbox_ref: Reference bounding box. 1x4 or 4 Tensor.
-          bboxes: Nx4 Tensor, collection of bounding boxes.
-        Return:
-          Nx4 Tensor with relative intersection.
-        """
-        # Intersection bbox and volume.
-        int_ymin = tf.maximum(bboxes[:, 0], bbox_ref[0])
-        int_xmin = tf.maximum(bboxes[:, 1], bbox_ref[1])
-        int_ymax = tf.minimum(bboxes[:, 2], bbox_ref[2])
-        int_xmax = tf.minimum(bboxes[:, 3], bbox_ref[3])
-        h = tf.maximum(int_ymax - int_ymin, 0.)
-        w = tf.maximum(int_xmax - int_xmin, 0.)
-        # Volumes.
-        inter_vol = h * w
-        bboxes_vol = (bboxes[:, 2] - bboxes[:, 0]) * (bboxes[:, 3] - bboxes[:, 1])
-        scores = tf.div(inter_vol, bboxes_vol)
-        return scores
+    Args:
+      bbox_ref: Reference bounding box. 1x4 or 4 Tensor.
+      bboxes: Nx4 Tensor, collection of bounding boxes.
+    Return:
+      Nx4 Tensor with relative intersection.
+    """
+    # Intersection bbox and volume.
+    int_ymin = tf.maximum(bboxes[:, 0], bbox_ref[0])
+    int_xmin = tf.maximum(bboxes[:, 1], bbox_ref[1])
+    int_ymax = tf.minimum(bboxes[:, 2], bbox_ref[2])
+    int_xmax = tf.minimum(bboxes[:, 3], bbox_ref[3])
+    h = tf.maximum(int_ymax - int_ymin, 0.)
+    w = tf.maximum(int_xmax - int_xmin, 0.)
+    # Volumes.
+    inter_vol = h * w
+    bboxes_vol = (bboxes[:, 2] - bboxes[:, 0]) * (bboxes[:, 3] - bboxes[:, 1])
+    scores = tf.div(inter_vol, bboxes_vol)
+    return scores
 
 
 def tf_bboxes_resize(bbox_ref, bboxes,
@@ -594,5 +594,3 @@ def bboxes_nms_fast(classes, scores, bboxes, threshold=0.45):
     """Apply non-maximum selection to bounding boxes.
     """
     pass
-
-

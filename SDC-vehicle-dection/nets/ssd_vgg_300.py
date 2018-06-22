@@ -94,7 +94,7 @@ class SSDNet(object):
         anchor_offset=0.5,
         normalizations=[20, -1, -1, -1, -1, -1],
         prior_scaling=[0.1, 0.1, 0.2, 0.2]
-        )
+    )
 
     def __init__(self, params=None):
         """Init the SSD net with some parameters. Use the default ones
@@ -457,6 +457,8 @@ def ssd_net(inputs,
             localisations.append(l)
 
         return predictions, localisations, logits, end_points
+
+
 ssd_net.default_image_size = 300
 
 
