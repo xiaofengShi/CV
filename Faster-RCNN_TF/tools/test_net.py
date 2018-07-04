@@ -16,8 +16,11 @@ from datasets.factory import get_imdb
 from networks.factory import get_network
 import argparse
 import pprint
-import time, os, sys
+import time
+import os
+import sys
 import tensorflow as tf
+
 
 def parse_args():
     """
@@ -55,6 +58,7 @@ def parse_args():
     args = parser.parse_args()
     return args
 
+
 if __name__ == '__main__':
     args = parse_args()
 
@@ -76,11 +80,11 @@ if __name__ == '__main__':
     imdb = get_imdb(args.imdb_name)
     imdb.competition_mode(args.comp_mode)
 
-    device_name = '/{}:{:d}'.format(args.device,args.device_id)
-    print device_name
+    device_name = '/{}:{:d}'.format(args.device, args.device_id)
+    print(device_name)
 
     network = get_network(args.network_name)
-    print 'Use network `{:s}` in training'.format(args.network_name)
+    print('Use network `{:s}` in training'.format(args.network_name))
 
     if args.device == 'gpu':
         cfg.USE_GPU_NMS = True
@@ -92,6 +96,6 @@ if __name__ == '__main__':
     saver = tf.train.Saver()
     sess = tf.Session(config=tf.ConfigProto(allow_soft_placement=True))
     saver.restore(sess, args.model)
-    print ('Loading model weights from {:s}').format(args.model)
+    print('Loading model weights from {:s}').format(args.model)
 
     test_net(sess, network, imdb, weights_filename)

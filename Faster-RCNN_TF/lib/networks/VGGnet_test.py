@@ -2,8 +2,9 @@ import tensorflow as tf
 from networks.network import Network
 
 n_classes = 21
-_feat_stride = [16,]
-anchor_scales = [8, 16, 32] 
+_feat_stride = [16, ]
+anchor_scales = [8, 16, 32]
+
 
 class VGGnet_test(Network):
     def __init__(self, trainable=True):
@@ -11,7 +12,7 @@ class VGGnet_test(Network):
         self.data = tf.placeholder(tf.float32, shape=[None, None, None, 3])
         self.im_info = tf.placeholder(tf.float32, shape=[None, 3])
         self.keep_prob = tf.placeholder(tf.float32)
-        self.layers = dict({'data':self.data, 'im_info':self.im_info})
+        self.layers = dict({'data': self.data, 'im_info': self.im_info})
         self.trainable = trainable
         self.setup()
 
@@ -36,22 +37,22 @@ class VGGnet_test(Network):
              .conv(3, 3, 512, 1, 1, name='conv5_3'))
 
         (self.feed('conv5_3')
-             .conv(3,3,512,1,1,name='rpn_conv/3x3')
-             .conv(1,1,len(anchor_scales)*3*2,1,1,padding='VALID',relu = False,name='rpn_cls_score'))
+             .conv(3, 3, 512, 1, 1, name='rpn_conv/3x3')
+             .conv(1, 1, len(anchor_scales)*3*2, 1, 1, padding='VALID', relu=False, name='rpn_cls_score'))
 
         (self.feed('rpn_conv/3x3')
-             .conv(1,1,len(anchor_scales)*3*4,1,1,padding='VALID',relu = False,name='rpn_bbox_pred'))
+             .conv(1, 1, len(anchor_scales)*3*4, 1, 1, padding='VALID', relu=False, name='rpn_bbox_pred'))
 
         (self.feed('rpn_cls_score')
-             .reshape_layer(2,name = 'rpn_cls_score_reshape')
+             .reshape_layer(2, name='rpn_cls_score_reshape')
              .softmax(name='rpn_cls_prob'))
 
         (self.feed('rpn_cls_prob')
-             .reshape_layer(len(anchor_scales)*3*2,name = 'rpn_cls_prob_reshape'))
+             .reshape_layer(len(anchor_scales)*3*2, name='rpn_cls_prob_reshape'))
 
-        (self.feed('rpn_cls_prob_reshape','rpn_bbox_pred','im_info')
-             .proposal_layer(_feat_stride, anchor_scales, 'TEST', name = 'rois'))
-        
+        (self.feed('rpn_cls_prob_reshape', 'rpn_bbox_pred', 'im_info')
+             .proposal_layer(_feat_stride, anchor_scales, 'TEST', name='rois'))
+
         (self.feed('conv5_3', 'rois')
              .roi_pool(7, 7, 1.0/16, name='pool_5')
              .fc(4096, name='fc6')
@@ -61,4 +62,3 @@ class VGGnet_test(Network):
 
         (self.feed('fc7')
              .fc(n_classes*4, relu=False, name='bbox_pred'))
-
