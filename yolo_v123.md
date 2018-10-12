@@ -1,6 +1,6 @@
 ## Reference: How to learn
 
-![img](./sayit.jpg)
+![img](assets/sayit.jpg)
 
 - 🔥[Darknet](https://pjreddie.com/darknet/)🔥
 
@@ -12,6 +12,7 @@
 
 - 🔥==[YOLO_v2_official](https://pjreddie.com/darknet/yolov2/)==🔥
 
+  - [official](https://github.com/PaulChongPeng/darknet)
   - [知乎_目标检测|YOLOv2原理与实现(附YOLOv3)](https://zhuanlan.zhihu.com/p/35325884)
   - [知乎_YOLO升级版：YOLOv2和YOLO9000解析](https://zhuanlan.zhihu.com/p/25052190)
   - [GUTHUB_Darknet.Tensorflow](https://github.com/thtrieu/darkflow)- Darknet directly to Tensorflow.
@@ -24,8 +25,8 @@
     - [知乎_YOLO_V3_PYTORCH](https://mp.weixin.qq.com/s/3mnV8gz1AsYQ2ElK--Ihrg)
   - [GITHUB_Yolo_V3_keras](https://github.com/qqwweee/keras-yolo3)  
     - [实现方法-腾讯云](https://cloud.tencent.com/developer/article/1093051)
+    - [Github-keras](https://github.com/xiaochus/YOLOv3)
 
-  
 
 
 

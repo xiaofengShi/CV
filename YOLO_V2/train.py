@@ -208,7 +208,7 @@ def train():
 
 		_, loss_data, data = sess.run([train_step, loss, y], feed_dict={train_flag: True, image: image_data, label: label_data})
 
-		print 'iter: %i, loss: %f' % (i, loss_data)
+		print ('iter: %i, loss: %f' % (i, loss_data))
 
 		if (i+1)%SAVE_INTERVAL == 0:
 			make_dir(MODEL_PATH)

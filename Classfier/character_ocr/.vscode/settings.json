@@ -1,0 +1,14 @@
+{
+    "python.pythonPath": "/anaconda3/bin/python",
+    "files.associations": {
+        "string": "cpp",
+        "bitset": "cpp",
+        "initializer_list": "cpp",
+        "iterator": "cpp",
+        "string_view": "cpp",
+        "utility": "cpp",
+        "atomic": "cpp",
+        "ios": "cpp",
+        "system_error": "cpp"
+    }
+}

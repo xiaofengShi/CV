@@ -1,0 +1,17 @@
+A_NOTE: 路径存储信息
+BATCH_SIZE: 20
+DATA_ROOT_PATH: /Users/xiaofeng/Code/Github/dataset/formula/prepared/
+DISPLAY_NUMS: 10
+EPOCH_NUMS: 10000
+IMAGE_PATH: /Users/xiaofeng/Code/Github/dataset/formula/prepared/images_processed/
+LABEL_PATH: /Users/xiaofeng/Code/Github/dataset/formula/prepared/formulas.norm.lst
+LEARNING_RATE: 0.1
+MEDEL_SAVED: /Users/xiaofeng/Code/Github/dataset/formula/model_saved_graphic/
+MIN_LEARNING_RATE: 0.001
+MODEL_SAVED_PATH: /Users/xiaofeng/Code/Github/dataset/formula/model_saved_graphic/ckpt
+SAVED_NUMS: 50
+SUMMARY_PATH: /Users/xiaofeng/Code/Github/dataset/formula/model_saved_graphic/log
+TEST_PATH: /Users/xiaofeng/Code/Github/dataset/formula/prepared/test_filter.lst
+TRAIN_PATH: /Users/xiaofeng/Code/Github/dataset/formula/prepared/train_filter.lst
+VALIDATE_PATH: /Users/xiaofeng/Code/Github/dataset/formula/prepared/validate_filter.lst
+VOCAB_PATH: /Users/xiaofeng/Code/Github/dataset/formula/prepared/latex_vocab.txt

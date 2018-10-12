@@ -1,0 +1,38 @@
+A_NOTE: 路径存储信息
+BATCH_SIZE: 32
+CHECKPOINT_PATH: /Users/xiaofeng/Code/Github/dataset/charactor_formula/formula/prepared/ckpt/
+CPU_NUMS: 1
+CPU_THREADS: 2
+DATA_ROOT: /Users/xiaofeng/Code/Github/dataset/charactor_formula/formula/prepared/
+DECAY_RATE: 0.7
+DECAY_STEPS: 10000
+DISPLAY_NUMS: 10
+ENHANCE: False
+EPOCH_NUMS: 10000
+FORMULA_PATH: /Users/xiaofeng/Code/Github/dataset/charactor_formula/formula/prepared/formulas.norm.lst
+GENERATE: True
+GPU: False
+IMG_DATA_PATH: /Users/xiaofeng/Code/Github/dataset/charactor_formula/formula/prepared/images_processed/
+IMG_TEST_PATH: /Users/xiaofeng/Code/Github/graphic/Character_mathjax_ocr/test_img/
+LABEL_SMOOTHING: 0.0
+LEARNING_RATE: 0.1
+LEARNING_STYLE: ['exponential', 'fixed', 'polynomial']
+LOCAL: True
+MIN_LEARNING_RATE: 0.001
+MODEL_SAVED: /Users/xiaofeng/Code/Github/dataset/charactor_formula/formula/prepared/
+NET_LIST: ['vgg_16', 'vgg_19', 'resnet_v2_50', 'resnet_v2_152']
+OPTIMIZER: ['adadelta', 'adagrad', 'adam', 'ftrl', 'momentum', 'rmsprop', 'sgd']
+PREDICT_PATH: /Users/xiaofeng/Code/Github/dataset/charactor_formula/original_data/predict/
+PREDICT_PATH_LOG: /Users/xiaofeng/Desktop/predict/log/
+PRETRAINED: /Users/xiaofeng/Code/Github/dataset/pretrained_model/
+PROPERTIES: /Users/xiaofeng/Code/Github/dataset/charactor_formula/formula/prepared/properties.npy
+RATIO: [2.4, 4.0, 6.0, 6.4, 6.0, 5.0, 4.0, 5.0, 4.8, 8.0, 5.6, 7.0, 3.6, 8.0, 7.2, 9.0]
+SAVED_NUMS: 50
+SAVE_ITER: 100
+SET_LIST: ['train', 'validate']
+SIZE_LIST: [(120, 50), (160, 40), (240, 40), (320, 50), (360, 60), (200, 40), (200, 50), (500, 100), (240, 50), (320, 40), (280, 50), (280, 40), (360, 100), (400, 50), (360, 50), (360, 40)]
+STAIRCASE: True
+SUMMARY_ITER: 200
+SUMMARY_PATH: /Users/xiaofeng/Code/Github/dataset/charactor_formula/formula/prepared/log/
+VOCAB_PATH: /Users/xiaofeng/Code/Github/dataset/charactor_formula/formula/prepared/latex_vocab.txt
+V_OUT: 135
