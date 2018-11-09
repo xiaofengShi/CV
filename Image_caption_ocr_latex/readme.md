@@ -27,6 +27,8 @@
     - This is the better repo referenced and modified 
   - [latex_to_img_test](./img_latex_recognize/latex_to_img_test)
 
+- 
+
 ## 2. Text detection
 
 

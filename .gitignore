@@ -6,7 +6,13 @@ preprocessing/__pycache__/
 
 .ipynb_checkpoints/
 notebooks/.ipynb_checkpoints/
-
+*pth
+*.weight
+*.weights
+*.ckpt
+*.pkl
+*.np
+*.json
 *.sublime-workspace
 *.sublime-project
 
